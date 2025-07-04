@@ -3,34 +3,20 @@ import { initializeApp, getApp, getApps, type FirebaseOptions } from "firebase/a
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration is now loaded from environment variables
+// Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyCXy9HjUwl8pctYmeHFSa53sv2V_OavHi8",
+  authDomain: "sahayak-teacher-1hngi.firebaseapp.com",
+  projectId: "sahayak-teacher-1hngi",
+  storageBucket: "sahayak-teacher-1hngi.appspot.com",
+  messagingSenderId: "295728684468",
+  appId: "1:295728684468:web:7b62491b9ea1d5ad6366e1"
 };
 
-function isFirebaseConfigValid(config: FirebaseOptions): boolean {
-  return !!(config.apiKey && config.authDomain && config.projectId && config.appId);
-}
-
 // Initialize Firebase
-let app;
-if (isFirebaseConfigValid(firebaseConfig)) {
-    app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-} else {
-    console.error(
-        "Firebase configuration is invalid or incomplete. " +
-        "Please check your .env file and ensure all NEXT_PUBLIC_FIREBASE_* variables are set correctly. " +
-        "You may need to restart your development server after updating the .env file."
-    );
-    app = null;
-}
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-const auth = app ? getAuth(app) : null;
+const auth = getAuth(app);
 
 let analytics;
 if (app && typeof window !== "undefined") {

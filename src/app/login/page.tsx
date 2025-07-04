@@ -27,7 +27,7 @@ export default function LoginPage() {
     if (!auth) {
         toast({
             title: "Configuration Error",
-            description: "Firebase is not configured. Please check your environment variables and restart the server.",
+            description: "Firebase is not configured. Please check src/lib/firebase.ts.",
             variant: "destructive",
         });
         return;
