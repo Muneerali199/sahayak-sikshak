@@ -16,11 +16,14 @@ export default function LoginPage() {
   const { toast } = useToast();
   const { user, loading } = useAuth();
   const [isSigningIn, setIsSigningIn] = React.useState(false);
+  const [hostname, setHostname] = React.useState("");
 
   React.useEffect(() => {
     if (user) {
       router.push("/dashboard");
     }
+    // Set hostname only on the client side
+    setHostname(window.location.hostname);
   }, [user, router]);
 
   const handleGoogleSignIn = async () => {
@@ -40,8 +43,10 @@ export default function LoginPage() {
     } catch (error: any) {
       console.error("Authentication Error:", error);
       let description = "Could not sign in with Google. Please try again.";
-      if (error.code === 'auth/configuration-not-found' || error.code === 'auth/operation-not-allowed') {
-          description = "Authentication failed. In the Firebase Console, please ensure Google Sign-In is enabled and your app's domain is added to the list of 'Authorized domains' under Authentication -> Settings.";
+      if (error.code === 'auth/unauthorized-domain') {
+          description = `This app's domain is not authorized. Please go to your Firebase Console -> Authentication -> Settings, and add '${hostname}' to the 'Authorized domains' list.`;
+      } else if (error.code === 'auth/operation-not-allowed') {
+          description = "Authentication failed. In the Firebase Console, please ensure Google Sign-In is enabled under Authentication -> Sign-in method.";
       }
       toast({
         title: "Authentication Failed",
