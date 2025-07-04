@@ -71,7 +71,7 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="py-20 md:py-32">
+        <section className="py-20 md:py-32 bg-gradient-to-b from-background to-secondary/40">
           <div className="container text-center">
             <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl font-headline">
               Your AI-Powered Teaching Assistant
@@ -89,7 +89,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="bg-secondary/50 py-20 md:py-24">
+        <section className="bg-secondary/40 py-20 md:py-24">
           <div className="container">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold font-headline">Everything a Teacher Needs</h2>
@@ -97,7 +97,7 @@ export default function LandingPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <div key={index} className="p-6 bg-card rounded-lg shadow-sm">
+                <div key={index} className="p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="mb-4">{feature.icon}</div>
                   <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
@@ -108,7 +108,7 @@ export default function LandingPage() {
         </section>
         
         <section className="py-20 md:py-32">
-            <div className="container grid md:grid-cols-2 gap-12 items-center">
+            <div className="container grid md:grid-cols-2 gap-16 items-center">
                 <div>
                     <h2 className="text-3xl font-bold font-headline">Built for the Indian Classroom</h2>
                     <p className="mt-4 text-lg text-muted-foreground">
@@ -124,10 +124,10 @@ export default function LandingPage() {
                 </div>
                 <div>
                     <Image
-                        src="https://placehold.co/600x400.png"
+                        src="https://placehold.co/600x450.png"
                         alt="Teacher using Sahayak App"
                         width={600}
-                        height={400}
+                        height={450}
                         className="rounded-lg shadow-xl"
                         data-ai-hint="teacher classroom"
                     />
@@ -136,7 +136,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t">
+      <footer className="border-t bg-secondary/40">
         <div className="container py-6 text-center text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} Sahayak Teacher. All Rights Reserved.
         </div>

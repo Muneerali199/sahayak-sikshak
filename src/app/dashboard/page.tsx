@@ -106,7 +106,7 @@ function Dashboard() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen bg-background">
+      <div className="flex min-h-screen bg-secondary/40">
         <Sidebar>
           <SidebarHeader>
             <div className="flex items-center gap-2">
