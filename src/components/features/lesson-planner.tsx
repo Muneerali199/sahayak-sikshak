@@ -33,7 +33,16 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Loader } from "@/components/ui/loader";
-import { createWeeklyLessonPlan } from "@/ai/flows/ai-powered-weekly-lesson-planners";
+import {
+  createWeeklyLessonPlan,
+  type CreateWeeklyLessonPlanOutput,
+} from "@/ai/flows/ai-powered-weekly-lesson-planners";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const formSchema = z.object({
   topic: z.string().min(3, "Topic must be at least 3 characters."),
@@ -49,7 +58,8 @@ type FormValues = z.infer<typeof formSchema>;
 export default function LessonPlanner() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [result, setResult] = React.useState<string | null>(null);
+  const [result, setResult] =
+    React.useState<CreateWeeklyLessonPlanOutput | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -66,7 +76,7 @@ export default function LessonPlanner() {
     setResult(null);
     try {
       const response = await createWeeklyLessonPlan(values);
-      setResult(response.weeklyPlan);
+      setResult(response);
     } catch (error) {
       console.error(error);
       toast({
@@ -187,12 +197,47 @@ export default function LessonPlanner() {
       {result && (
         <Card>
           <CardHeader>
-            <CardTitle className="font-headline">Generated Weekly Plan</CardTitle>
+            <CardTitle className="font-headline">{result.title}</CardTitle>
+            <CardDescription>{result.summary}</CardDescription>
           </CardHeader>
           <CardContent>
-            <pre className="whitespace-pre-wrap font-body text-sm bg-muted p-4 rounded-md">
-              {result}
-            </pre>
+            <Accordion type="single" collapsible className="w-full">
+              {result.dailyPlans.map((plan, index) => (
+                <AccordionItem value={`item-${index}`} key={index}>
+                  <AccordionTrigger className="text-lg font-semibold text-left">
+                    {plan.day}: {plan.topic}
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 pt-2 pl-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 text-base">
+                        Activities
+                      </h4>
+                      <ul className="list-disc list-inside space-y-1 text-sm">
+                        {plan.activities.map((activity, i) => (
+                          <li key={i}>{activity}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-base">
+                        Assessment
+                      </h4>
+                      <p className="text-sm">{plan.assessment}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-base">
+                        Resources
+                      </h4>
+                      <ul className="list-disc list-inside space-y-1 text-sm">
+                        {plan.resources.map((resource, i) => (
+                          <li key={i}>{resource}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </CardContent>
         </Card>
       )}
