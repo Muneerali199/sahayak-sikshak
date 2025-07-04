@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { app } from "@/lib/firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Logo } from "@/components/icons";
@@ -12,7 +12,6 @@ import { useAuth } from "@/context/auth-context";
 import { Loader } from "@/components/ui/loader";
 
 export default function LoginPage() {
-  const auth = getAuth(app);
   const router = useRouter();
   const { toast } = useToast();
   const { user, loading } = useAuth();
@@ -25,6 +24,14 @@ export default function LoginPage() {
   }, [user, router]);
 
   const handleGoogleSignIn = async () => {
+    if (!auth) {
+        toast({
+            title: "Configuration Error",
+            description: "Firebase is not properly configured. Please contact support.",
+            variant: "destructive",
+        });
+        return;
+    }
     setIsSigningIn(true);
     const provider = new GoogleAuthProvider();
     try {

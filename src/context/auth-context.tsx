@@ -1,8 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
-import { app } from '@/lib/firebase';
+import { onAuthStateChanged, type User } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { Loader } from '@/components/ui/loader';
 
 interface AuthContextType {
@@ -17,7 +17,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const auth = getAuth(app);
+    if (!auth) {
+        setLoading(false);
+        // You might want to show a message to the user that Firebase is not configured.
+        console.error("Firebase is not configured. Please check your .env file.");
+        return;
+    }
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);

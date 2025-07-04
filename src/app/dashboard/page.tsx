@@ -36,8 +36,8 @@ import AudioAssessment from "@/components/features/audio-assessment";
 import GameGeneration from "@/components/features/game-generation";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { useAuth } from "@/context/auth-context";
-import { getAuth, signOut } from "firebase/auth";
-import { app } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
 
@@ -53,11 +53,11 @@ type Feature =
 function Dashboard() {
   const [activeFeature, setActiveFeature] = React.useState<Feature>("localize");
   const { user } = useAuth();
-  const auth = getAuth(app);
   const router = useRouter();
 
 
   const handleSignOut = () => {
+    if (!auth) return;
     signOut(auth).then(() => {
         router.push('/');
     }).catch((error) => console.error("Sign out error", error));
