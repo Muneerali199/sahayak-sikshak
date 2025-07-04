@@ -39,6 +39,7 @@ import { useAuth } from "@/context/auth-context";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 
 type Feature =
@@ -151,7 +152,10 @@ function Dashboard() {
             <SidebarTrigger className="md:hidden">
               <PanelLeft />
             </SidebarTrigger>
-            <Button variant="outline" onClick={handleSignOut}>Logout</Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Button variant="outline" onClick={handleSignOut}>Logout</Button>
+            </div>
           </header>
           <main className="flex-1">{renderFeature()}</main>
         </SidebarInset>
