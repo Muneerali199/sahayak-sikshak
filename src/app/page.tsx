@@ -1,144 +1,146 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
-  AudioLines,
+  ArrowRight,
   BrainCircuit,
-  CalendarPlus,
-  Gamepad2,
   Languages,
   Paintbrush,
-  PanelLeft,
-  UsersRound,
+  BookOpenCheck,
+  Sparkles,
+  CalendarCheck,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Logo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/icons";
 
-import LocalizedContent from "@/components/features/localized-content";
-import DifferentiatedMaterials from "@/components/features/differentiated-materials";
-import KnowledgeBase from "@/components/features/knowledge-base";
-import VisualAids from "@/components/features/visual-aids";
-import LessonPlanner from "@/components/features/lesson-planner";
-import AudioAssessment from "@/components/features/audio-assessment";
-import GameGeneration from "@/components/features/game-generation";
-
-type Feature =
-  | "localize"
-  | "differentiate"
-  | "knowledge"
-  | "visualize"
-  | "plan"
-  | "assess"
-  | "gamify";
-
-export default function SahayakTeacherApp() {
-  const [activeFeature, setActiveFeature] = React.useState<Feature>("localize");
-
-  const renderFeature = () => {
-    switch (activeFeature) {
-      case "localize":
-        return <LocalizedContent />;
-      case "differentiate":
-        return <DifferentiatedMaterials />;
-      case "knowledge":
-        return <KnowledgeBase />;
-      case "visualize":
-        return <VisualAids />;
-      case "plan":
-        return <LessonPlanner />;
-      case "assess":
-        return <AudioAssessment />;
-      case "gamify":
-        return <GameGeneration />;
-      default:
-        return <LocalizedContent />;
-    }
-  };
-
-  const menuItems = [
-    { id: "localize", icon: Languages, label: "Localized Content" },
+export default function LandingPage() {
+  const features = [
     {
-      id: "differentiate",
-      icon: UsersRound,
-      label: "Differentiated Materials",
+      icon: <Languages className="w-8 h-8 text-primary" />,
+      title: "Localized Content Generation",
+      description: "Create stories and examples in Hindi, Marathi, and more from a simple prompt.",
     },
-    { id: "knowledge", icon: BrainCircuit, label: "Instant Knowledge Base" },
-    { id: "visualize", icon: Paintbrush, label: "Visual Aid Design" },
-    { id: "plan", icon: CalendarPlus, label: "Weekly Lesson Planner" },
     {
-      id: "assess",
-      icon: AudioLines,
-      label: "Audio Assessments",
-      disabled: false,
+      icon: <BookOpenCheck className="w-8 h-8 text-primary" />,
+      title: "Differentiated Materials",
+      description: "Generate multiple versions of a worksheet from a textbook photo for different grade levels.",
     },
-    { id: "gamify", icon: Gamepad2, label: "Game Generation", disabled: false },
+    {
+      icon: <BrainCircuit className="w-8 h-8 text-primary" />,
+      title: "Instant Knowledge Base",
+      description: "Get simple, clear explanations for complex student questions with voice or text.",
+    },
+    {
+      icon: <Paintbrush className="w-8 h-8 text-primary" />,
+      title: "Visual Aid Design",
+      description: "Describe a concept and get a simple visual aid you can draw on a blackboard.",
+    },
+    {
+      icon: <CalendarCheck className="w-8 h-8 text-primary" />,
+      title: "Weekly Lesson Planner",
+      description: "Automate the creation of structured weekly lesson plans for any topic and grade.",
+    },
+    {
+      icon: <Sparkles className="w-8 h-8 text-primary" />,
+      title: "And much more...",
+      description: "From audio assessments to on-the-fly game generation, Sahayak is your all-in-one assistant.",
+    },
   ];
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen bg-background">
-        <Sidebar>
-          <SidebarHeader>
-            <div className="flex items-center gap-2">
-              <Logo className="size-8" />
-              <span className="text-xl font-semibold font-headline">
-                Sahayak
-              </span>
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Logo className="h-8 w-8 text-primary" />
+            <span className="text-xl font-bold font-headline">Sahayak Teacher</span>
+          </div>
+          <nav className="flex items-center gap-4">
+            <Link href="/login">
+              <Button variant="outline">Sign In</Button>
+            </Link>
+            <Link href="/login">
+              <Button>
+                Get Started <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        <section className="py-20 md:py-32">
+          <div className="container text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl font-headline">
+              Your AI-Powered Teaching Assistant
+            </h1>
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
+              Spend less time on prep and more time on what matters most—teaching. Sahayak helps you with lesson plans, materials, and creative ideas, all in your local language.
+            </p>
+            <div className="mt-10">
+              <Link href="/login">
+                <Button size="lg">
+                  Start For Free <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </div>
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => setActiveFeature(item.id as Feature)}
-                    isActive={activeFeature === item.id}
-                    disabled={item.disabled}
-                    tooltip={item.label}
-                  >
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+          </div>
+        </section>
+
+        <section className="bg-secondary/50 py-20 md:py-24">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold font-headline">Everything a Teacher Needs</h2>
+              <p className="mt-4 text-muted-foreground">From planning to assessment, Sahayak has you covered.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {features.map((feature, index) => (
+                <div key={index} className="p-6 bg-card rounded-lg shadow-sm">
+                  <div className="mb-4">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </div>
               ))}
-            </SidebarMenu>
-          </SidebarContent>
-          <SidebarFooter>
-            <div className="flex items-center gap-3">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="https://placehold.co/100x100.png" alt="User" />
-                <AvatarFallback>T</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col text-sm">
-                <span className="font-semibold">Teacher</span>
-                <span className="text-muted-foreground">teacher@school.org</span>
-              </div>
             </div>
-          </SidebarFooter>
-        </Sidebar>
-        <SidebarInset className="flex flex-col p-4 md:p-6 lg:p-8">
-          <header className="flex items-center justify-between md:justify-end mb-4">
-            <SidebarTrigger className="md:hidden">
-              <PanelLeft />
-            </SidebarTrigger>
-            <Button variant="outline">Help</Button>
-          </header>
-          <main className="flex-1">{renderFeature()}</main>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+          </div>
+        </section>
+        
+        <section className="py-20 md:py-32">
+            <div className="container grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 className="text-3xl font-bold font-headline">Built for the Indian Classroom</h2>
+                    <p className="mt-4 text-lg text-muted-foreground">
+                        Sahayak understands the unique needs of teachers in India. It generates hyper-local content, works with multiple Indian languages, and creates materials that are culturally relevant and easy to use in your classroom.
+                    </p>
+                    <div className="mt-8">
+                        <Link href="/login">
+                            <Button size="lg" variant="outline">
+                                See it in Action
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+                <div>
+                    <Image
+                        src="https://placehold.co/600x400.png"
+                        alt="Teacher using Sahayak App"
+                        width={600}
+                        height={400}
+                        className="rounded-lg shadow-xl"
+                        data-ai-hint="teacher classroom"
+                    />
+                </div>
+            </div>
+        </section>
+      </main>
+
+      <footer className="border-t">
+        <div className="container py-6 text-center text-sm text-muted-foreground">
+          &copy; {new Date().getFullYear()} Sahayak Teacher. All Rights Reserved.
+        </div>
+      </footer>
+    </div>
   );
 }
