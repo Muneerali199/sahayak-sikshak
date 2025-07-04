@@ -42,6 +42,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 type Feature =
@@ -58,6 +59,24 @@ function Dashboard() {
   const [activeFeature, setActiveFeature] = React.useState<Feature>("localize");
   const { user } = useAuth();
   const router = useRouter();
+  const followerRef = React.useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+
+  React.useEffect(() => {
+    if (isMobile) return;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (followerRef.current) {
+        const { clientX, clientY } = event;
+        followerRef.current.style.transform = `translate(${clientX}px, ${clientY}px) translate(-50%, -50%)`;
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [isMobile]);
 
 
   const handleSignOut = () => {
@@ -112,61 +131,64 @@ function Dashboard() {
   ];
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen bg-secondary/40">
-        <Sidebar>
-          <SidebarHeader>
-            <div className="flex items-center gap-2">
-              <Logo className="size-8" />
-              <span className="text-xl font-semibold font-headline">
-                Sahayak
-              </span>
-            </div>
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => setActiveFeature(item.id as Feature)}
-                    isActive={activeFeature === item.id}
-                    disabled={item.disabled}
-                    tooltip={item.label}
-                  >
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarContent>
-          <SidebarFooter>
-            <div className="flex items-center gap-3">
-              <Avatar className="h-8 w-8">
-                {user?.photoURL && <AvatarImage src={user.photoURL} alt={user.displayName || "User"} />}
-                <AvatarFallback>{user?.displayName?.charAt(0) || 'T'}</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col text-sm">
-                <span className="font-semibold">{user?.displayName || "Teacher"}</span>
-                <span className="text-muted-foreground">{user?.email || "teacher@school.org"}</span>
+    <>
+      {!isMobile && <div ref={followerRef} className="cursor-follower-element" />}
+      <SidebarProvider>
+        <div className="flex min-h-screen bg-secondary/40">
+          <Sidebar>
+            <SidebarHeader>
+              <div className="flex items-center gap-2">
+                <Logo className="size-8" />
+                <span className="text-xl font-semibold font-headline">
+                  Sahayak
+                </span>
               </div>
-            </div>
-          </SidebarFooter>
-        </Sidebar>
-        <SidebarInset className="flex flex-col p-4 md:p-6 lg:p-8">
-          <header className="flex items-center justify-between md:justify-end mb-4 gap-4">
-            <SidebarTrigger className="md:hidden">
-              <PanelLeft />
-            </SidebarTrigger>
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <Button variant="outline" onClick={handleSignOut}>Logout</Button>
-            </div>
-          </header>
-          <main className="flex-1">{renderFeature()}</main>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+                {menuItems.map((item) => (
+                  <SidebarMenuItem key={item.id}>
+                    <SidebarMenuButton
+                      onClick={() => setActiveFeature(item.id as Feature)}
+                      isActive={activeFeature === item.id}
+                      disabled={item.disabled}
+                      tooltip={item.label}
+                    >
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarContent>
+            <SidebarFooter>
+              <div className="flex items-center gap-3">
+                <Avatar className="h-8 w-8">
+                  {user?.photoURL && <AvatarImage src={user.photoURL} alt={user.displayName || "User"} />}
+                  <AvatarFallback>{user?.displayName?.charAt(0) || 'T'}</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col text-sm">
+                  <span className="font-semibold">{user?.displayName || "Teacher"}</span>
+                  <span className="text-muted-foreground">{user?.email || "teacher@school.org"}</span>
+                </div>
+              </div>
+            </SidebarFooter>
+          </Sidebar>
+          <SidebarInset className="flex flex-col p-4 md:p-6 lg:p-8">
+            <header className="flex items-center justify-between md:justify-end mb-4 gap-4">
+              <SidebarTrigger className="md:hidden">
+                <PanelLeft />
+              </SidebarTrigger>
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button variant="outline" onClick={handleSignOut}>Logout</Button>
+              </div>
+            </header>
+            <main className="flex-1">{renderFeature()}</main>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
+    </>
   );
 }
 
