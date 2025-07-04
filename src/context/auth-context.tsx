@@ -19,8 +19,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!auth) {
         setLoading(false);
-        // You might want to show a message to the user that Firebase is not configured.
-        console.error("Firebase is not configured. Please check your .env file.");
+        console.error("Firebase Auth is not available. Please check your Firebase configuration in the .env file and restart the server.");
         return;
     }
     const unsubscribe = onAuthStateChanged(auth, (user) => {

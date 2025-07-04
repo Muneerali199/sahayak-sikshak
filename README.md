@@ -25,6 +25,7 @@ This project is built with a modern, robust, and scalable technology stack:
 *   **Language:** [TypeScript](https://www.typescriptlang.org/)
 *   **UI:** [React](https://react.dev/) & [ShadCN UI](https://ui.shadcn.com/)
 *   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Authentication:** [Firebase Authentication](https://firebase.google.com/docs/auth)
 *   **AI/Generative AI:** [Genkit](https://firebase.google.com/docs/genkit) with Google AI
 *   **Deployment:** [Firebase App Hosting](https://firebase.google.com/docs/app-hosting)
 
@@ -36,14 +37,19 @@ The project follows a standard Next.js App Router structure with some key direct
 .
 ├── src
 │   ├── app/                  # Next.js pages, layouts, and routing
+│   │   ├── (main)/           # Main application routes (landing page)
+│   │   └── dashboard/        # Protected dashboard route
 │   ├── ai/                   # Genkit flows for all AI features
 │   │   ├── flows/
 │   │   └── genkit.ts         # Genkit configuration
 │   ├── components/
+│   │   ├── auth/             # Authentication-related components
 │   │   ├── features/         # Components for each main feature
 │   │   └── ui/               # Reusable UI components from ShadCN
+│   ├── context/              # React context providers (e.g., AuthContext)
 │   ├── hooks/                # Custom React hooks (e.g., useToast)
 │   ├── lib/                  # Utility functions & Firebase config
+├── .env                      # Local environment variables (DO NOT COMMIT)
 ├── .env.example              # Example environment variables
 └── package.json
 ```
@@ -56,7 +62,8 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 *   [Node.js](https://nodejs.org/) (v18 or later recommended)
 *   [npm](https://www.npmjs.com/)
-*   A Google AI API Key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
+*   A **Firebase Project**. You can create one for free at the [Firebase Console](https://console.firebase.google.com/).
+*   A **Google AI API Key**. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 ### Installation
 
@@ -76,10 +83,9 @@ Follow these instructions to get a copy of the project up and running on your lo
     ```bash
     cp .env.example .env
     ```
-    Open the new `.env` file and add your Google AI API key:
-    ```
-    GOOGLE_API_KEY=your_google_ai_api_key_here
-    ```
+    Open the new `.env` file and add your **Firebase project credentials** and your **Google AI API key**. You can find your Firebase credentials in your Firebase Project Settings under "General".
+
+    **Important:** After creating or modifying the `.env` file, you must **restart your Next.js development server** for the changes to take effect.
 
 4.  **Run the development servers:**
     This project requires two development servers running concurrently: one for the Next.js frontend and one for the Genkit AI flows.
