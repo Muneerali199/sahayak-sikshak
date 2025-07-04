@@ -47,7 +47,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert teacher specializing in explaining complex concepts to students in simple terms. You will provide accurate explanations in the local language, complete with easy-to-understand analogies.
 
   {{#if audioQuestionDataUri}}
-  The student's question is in the following audio. Transcribe the question and then provide your explanation.
+  The student's question is in the following audio. The audio can be in any language, including Hindi. Please transcribe the question accurately, and then provide your explanation.
   Audio: {{media url=audioQuestionDataUri}}
   {{else}}
   The student's question is: "{{{question}}}"

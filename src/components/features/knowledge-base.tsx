@@ -152,8 +152,7 @@ export default function KnowledgeBase() {
             <CardHeader>
               <CardTitle className="font-headline">Instant Knowledge Base</CardTitle>
               <CardDescription>
-                Get simple, accurate explanations for complex student questions
-                in the local language. Ask with your voice or by typing.
+                Get simple, accurate explanations for complex student questions. Ask in English, Hindi, Marathi or another language with your voice or by typing, and get an answer in your chosen language.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
