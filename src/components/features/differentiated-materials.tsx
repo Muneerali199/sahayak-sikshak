@@ -6,7 +6,7 @@ import { z } from "zod";
 import * as React from "react";
 import { Upload, UsersRound } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -34,7 +34,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Label } from "../ui/label";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
