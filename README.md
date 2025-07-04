@@ -117,6 +117,18 @@ This application is configured for easy deployment using **Firebase App Hosting*
     ```
     This command will build your Next.js application and deploy it to Firebase App Hosting. Your site will be live at the URL provided at the end of the deployment process.
 
+## 🤝 Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star!
+
+For more detailed information, please see our [**Contributing Guidelines**](./CONTRIBUTING.md).
+
+## 📜 License
+
+This project is licensed under the MIT License. A `LICENSE` file will be added soon.
+
 ---
 
 Built by **Muneer Ali, member of Team Code_Blitz**.
