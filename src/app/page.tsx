@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -53,8 +54,8 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <div className="absolute top-0 left-0 w-full h-full bg-background -z-10 overflow-hidden">
-        <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-primary/10 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-accent/20 rounded-full filter blur-3xl" />
+        <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-primary/10 rounded-full filter blur-3xl dark:bg-primary/20" />
+        <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-accent/20 rounded-full filter blur-3xl dark:bg-accent/30" />
       </div>
 
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -80,7 +81,7 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="py-24 md:py-32 lg:py-40">
           <div className="container text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl font-headline bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
+            <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl font-headline bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:to-foreground/80">
               Your AI-Powered Teaching Assistant
             </h1>
             <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground">
@@ -88,7 +89,7 @@ export default function LandingPage() {
             </p>
             <div className="mt-10">
               <Link href="/login">
-                <Button size="lg" className="shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow">
+                <Button size="lg" className="shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow dark:shadow-lg dark:shadow-primary/30 dark:hover:shadow-primary/50">
                   Start For Free <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -96,7 +97,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="features" className="py-20 md:py-24 bg-secondary/50">
+        <section id="features" className="py-20 md:py-24 bg-secondary/50 dark:bg-transparent">
           <div className="container">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">Everything a Teacher Needs</h2>
@@ -104,7 +105,7 @@ export default function LandingPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <div key={index} className="bg-card/60 backdrop-blur-sm border border-border/50 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                <div key={index} className="bg-card/60 dark:bg-gradient-to-br dark:from-secondary/10 dark:to-secondary/[.05] backdrop-blur-sm border border-border/50 dark:border-border/20 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 hover:border-primary/50 dark:hover:border-primary/70">
                   <div className="mb-4 bg-primary/10 text-primary p-3 rounded-lg w-fit">{feature.icon}</div>
                   <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
@@ -129,7 +130,7 @@ export default function LandingPage() {
                         </Link>
                     </div>
                 </div>
-                <div className="order-1 md:order-2 p-2 bg-gradient-to-br from-primary via-primary/30 to-background rounded-2xl shadow-2xl">
+                <div className="order-1 md:order-2 p-2 bg-gradient-to-br from-primary via-primary/30 to-background dark:from-primary/80 dark:via-primary/40 rounded-2xl shadow-2xl dark:shadow-primary/30">
                     <Image
                         src="https://placehold.co/600x450.png"
                         alt="Teacher in an Indian classroom"
