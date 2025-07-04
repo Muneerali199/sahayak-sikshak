@@ -1,5 +1,3 @@
-// This file is machine-generated - edit at your own risk.
-
 'use server';
 
 /**
@@ -13,14 +11,28 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const ExplainConceptInputSchema = z.object({
-  question: z.string().describe('The complex question from the student.'),
-  localLanguage: z.string().describe('The local language of the explanation.'),
-});
+const ExplainConceptInputSchema = z
+  .object({
+    question: z.string().optional().describe('The complex question from the student as text.'),
+    audioQuestionDataUri: z
+      .string()
+      .optional()
+      .describe(
+        "The student's question as an audio data URI. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+      ),
+    localLanguage: z.string().describe('The local language of the explanation.'),
+  })
+  .refine(data => data.question || data.audioQuestionDataUri, {
+    message: 'Either a text question or an audio recording must be provided.',
+  });
 export type ExplainConceptInput = z.infer<typeof ExplainConceptInputSchema>;
 
 const ExplainConceptOutputSchema = z.object({
-  explanation: z.string().describe('A simple, accurate explanation in the local language, complete with easy-to-understand analogies.'),
+  explanation: z
+    .string()
+    .describe(
+      'A simple, accurate explanation in the local language, complete with easy-to-understand analogies.'
+    ),
 });
 export type ExplainConceptOutput = z.infer<typeof ExplainConceptOutputSchema>;
 
@@ -34,8 +46,14 @@ const prompt = ai.definePrompt({
   output: {schema: ExplainConceptOutputSchema},
   prompt: `You are an expert teacher specializing in explaining complex concepts to students in simple terms. You will provide accurate explanations in the local language, complete with easy-to-understand analogies.
 
-  Question: {{{question}}}
-  Local Language: {{{localLanguage}}}`,
+  {{#if audioQuestionDataUri}}
+  The student's question is in the following audio. Transcribe the question and then provide your explanation.
+  Audio: {{media url=audioQuestionDataUri}}
+  {{else}}
+  The student's question is: "{{{question}}}"
+  {{/if}}
+
+  Please provide your explanation in {{{localLanguage}}}.`,
 });
 
 const explainConceptFlow = ai.defineFlow(
