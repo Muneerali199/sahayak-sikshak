@@ -32,7 +32,8 @@ import DifferentiatedMaterials from "@/components/features/differentiated-materi
 import KnowledgeBase from "@/components/features/knowledge-base";
 import VisualAids from "@/components/features/visual-aids";
 import LessonPlanner from "@/components/features/lesson-planner";
-import ComingSoonCard from "@/components/features/coming-soon-card";
+import AudioAssessment from "@/components/features/audio-assessment";
+import GameGeneration from "@/components/features/game-generation";
 
 type Feature =
   | "localize"
@@ -59,21 +60,9 @@ export default function SahayakTeacherApp() {
       case "plan":
         return <LessonPlanner />;
       case "assess":
-        return (
-          <ComingSoonCard
-            title="Audio-Based Reading Assessments"
-            description="This feature will allow you to conduct audio-based reading assessments to evaluate student reading proficiency and provide feedback."
-            icon={<AudioLines className="h-12 w-12" />}
-          />
-        );
+        return <AudioAssessment />;
       case "gamify":
-        return (
-          <ComingSoonCard
-            title="On-the-Fly Educational Game Generation"
-            description="This feature will enable you to generate educational games on-the-fly based on curriculum topics to engage students and reinforce learning."
-            icon={<Gamepad2 className="h-12 w-12" />}
-          />
-        );
+        return <GameGeneration />;
       default:
         return <LocalizedContent />;
     }
@@ -93,9 +82,9 @@ export default function SahayakTeacherApp() {
       id: "assess",
       icon: AudioLines,
       label: "Audio Assessments",
-      disabled: true,
+      disabled: false,
     },
-    { id: "gamify", icon: Gamepad2, label: "Game Generation", disabled: true },
+    { id: "gamify", icon: Gamepad2, label: "Game Generation", disabled: false },
   ];
 
   return (
