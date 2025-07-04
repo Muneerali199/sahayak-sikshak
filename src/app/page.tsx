@@ -132,11 +132,11 @@ export default function LandingPage() {
                 <div className="order-1 md:order-2 p-2 bg-gradient-to-br from-primary via-primary/30 to-background rounded-2xl shadow-2xl">
                     <Image
                         src="https://placehold.co/600x450.png"
-                        alt="Teacher using Sahayak App"
+                        alt="Teacher in an Indian classroom"
                         width={600}
                         height={450}
                         className="rounded-lg"
-                        data-ai-hint="teacher classroom"
+                        data-ai-hint="indian classroom"
                     />
                 </div>
             </div>
