@@ -8,3 +8,4 @@ import '@/ai/flows/instant-knowledge-base.ts';
 import '@/ai/flows/generate-local-content.ts';
 import '@/ai/flows/reading-assessment.ts';
 import '@/ai/flows/game-generation.ts';
+import '@/ai/flows/generate-audio-visual-explanation.ts';

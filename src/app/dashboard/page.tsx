@@ -9,6 +9,7 @@ import {
   Languages,
   Paintbrush,
   PanelLeft,
+  Presentation,
   UsersRound,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -34,6 +35,7 @@ import VisualAids from "@/components/features/visual-aids";
 import LessonPlanner from "@/components/features/lesson-planner";
 import AudioAssessment from "@/components/features/audio-assessment";
 import GameGeneration from "@/components/features/game-generation";
+import AudioVisualExplanation from "@/components/features/audio-visual-explanation";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { useAuth } from "@/context/auth-context";
 import { signOut } from "firebase/auth";
@@ -49,7 +51,8 @@ type Feature =
   | "visualize"
   | "plan"
   | "assess"
-  | "gamify";
+  | "gamify"
+  | "explain";
 
 function Dashboard() {
   const [activeFeature, setActiveFeature] = React.useState<Feature>("localize");
@@ -81,6 +84,8 @@ function Dashboard() {
         return <AudioAssessment />;
       case "gamify":
         return <GameGeneration />;
+      case "explain":
+        return <AudioVisualExplanation />;
       default:
         return <LocalizedContent />;
     }
@@ -103,6 +108,7 @@ function Dashboard() {
       disabled: false,
     },
     { id: "gamify", icon: Gamepad2, label: "Game Generation", disabled: false },
+    { id: "explain", icon: Presentation, label: "Audio-Visual Explanation" },
   ];
 
   return (
