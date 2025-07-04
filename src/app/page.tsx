@@ -81,6 +81,9 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="py-24 md:py-32 lg:py-40">
           <div className="container text-center">
+            <div className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary shadow-md">
+                <span>Google Cloud Agentic Hackathon Submission</span>
+            </div>
             <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl font-headline bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:to-foreground/80">
               Your AI-Powered Teaching Assistant
             </h1>
@@ -146,7 +149,7 @@ export default function LandingPage() {
 
       <footer className="border-t">
         <div className="container py-8 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Sahayak Teacher. All Rights Reserved.
+          Built by Muneer Ali, member of Team Code_Blitz.
         </div>
       </footer>
     </div>
