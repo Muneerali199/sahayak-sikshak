@@ -163,8 +163,13 @@ export default function LessonPlanner() {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="English">English</SelectItem>
-                        <SelectItem value="Marathi">Marathi</SelectItem>
                         <SelectItem value="Hindi">Hindi</SelectItem>
+                        <SelectItem value="Marathi">Marathi</SelectItem>
+                        <SelectItem value="Bengali">Bengali</SelectItem>
+                        <SelectItem value="Tamil">Tamil</SelectItem>
+                        <SelectItem value="Telugu">Telugu</SelectItem>
+                        <SelectItem value="Gujarati">Gujarati</SelectItem>
+                        <SelectItem value="Kannada">Kannada</SelectItem>
                         <SelectItem value="Spanish">Spanish</SelectItem>
                       </SelectContent>
                     </Select>
