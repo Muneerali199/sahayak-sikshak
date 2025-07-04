@@ -37,12 +37,17 @@ export default function LoginPage() {
     try {
       await signInWithPopup(auth, provider);
       router.push("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Authentication Error:", error);
+      let description = "Could not sign in with Google. Please try again.";
+      if (error.code === 'auth/configuration-not-found' || error.code === 'auth/operation-not-allowed') {
+          description = "Authentication failed. In the Firebase Console, please ensure Google Sign-In is enabled and your app's domain is added to the list of 'Authorized domains' under Authentication -> Settings.";
+      }
       toast({
         title: "Authentication Failed",
-        description: "Could not sign in with Google. Please try again.",
+        description: description,
         variant: "destructive",
+        duration: 9000,
       });
     } finally {
         setIsSigningIn(false);
