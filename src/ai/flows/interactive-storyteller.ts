@@ -13,36 +13,35 @@ import {z} from 'genkit';
 import wav from 'wav';
 import {googleAI} from '@genkit-ai/googleai';
 
-// Available TTS voices for characters. A mix of male and female sounding voices.
+// Valid TTS voices from the Gemini API, a mix of male and female sounding names.
 const ttsVoices = [
-  // Male-sounding
-  'Achernar',
-  'Algenib',
-  'Canopus',
-  'Enif',
-  'Hamal',
-  'Mirfak',
-  'Regulus',
-  'Sirius',
-  'Aldebaran',
-  'Altair',
-  'Antares',
-  'Arcturus',
-  'Castor',
-  'Pollux',
-  'Procyon',
-  'Rigel',
-  // Female-sounding
-  'Adhara',
-  'Bellatrix',
-  'Capella',
-  'Elara',
-  'Izar',
-  'Leda',
-  'Meissa',
-  'Mira',
-  'Spica',
-  'Vega',
+  // Potentially male-sounding
+  'achernar',
+  'algenib',
+  'gacrux',
+  'iapetus',
+  'rasalgethi',
+  'sadachbia',
+  'schedar',
+  'sulafat',
+  'zubenelgenubi',
+  'fenrir',
+  'orus',
+  'charon',
+  
+  // Potentially female-sounding
+  'vindemiatrix',
+  'achird',
+  'alnilam',
+  'aoede',
+  'callirrhoe',
+  'despina',
+  'erinome',
+  'kore',
+  'laomedeia',
+  'leda',
+  'puck',
+  'pulcherrima',
 ];
 
 
