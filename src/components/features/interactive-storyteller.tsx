@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import * as React from "react";
 import Image from "next/image";
-import { Rabbit, Sparkles } from "lucide-react";
+import { Pause, Play, Rabbit, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -39,13 +39,7 @@ import {
   generateInteractiveStory,
   type GenerateInteractiveStoryOutput,
 } from "@/ai/flows/interactive-storyteller";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
@@ -55,6 +49,128 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
+
+const StoryPlayer = ({
+  story,
+}: {
+  story: GenerateInteractiveStoryOutput;
+}) => {
+  const audioRef = React.useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const [currentIllustrationIndex, setCurrentIllustrationIndex] =
+    React.useState(0);
+  const [timestamps, setTimestamps] = React.useState<number[]>([]);
+
+  React.useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || story.illustrations.length === 0) return;
+
+    const calculateTimestamps = () => {
+      const { duration } = audio;
+      if (isNaN(duration) || duration === 0) return;
+      
+      const numIllustrations = story.illustrations.length;
+      const interval = duration / numIllustrations;
+      const newTimestamps = Array.from(
+        { length: numIllustrations },
+        (_, i) => i * interval
+      );
+      setTimestamps(newTimestamps);
+    };
+
+    const handleTimeUpdate = () => {
+      if (!audio) return;
+      setProgress((audio.currentTime / audio.duration) * 100);
+
+      const nextTimestampIndex = timestamps.findIndex(
+        (ts) => ts > audio.currentTime
+      );
+      
+      let newIndex = 0;
+      if (nextTimestampIndex === -1) {
+        newIndex = timestamps.length - 1;
+      } else {
+        newIndex = nextTimestampIndex - 1;
+      }
+
+      if (newIndex >= 0 && newIndex !== currentIllustrationIndex) {
+        setCurrentIllustrationIndex(newIndex);
+      }
+    };
+
+    const handlePlaybackEnd = () => {
+      setIsPlaying(false);
+      setProgress(100);
+      setCurrentIllustrationIndex(story.illustrations.length - 1);
+    };
+
+    audio.addEventListener("loadedmetadata", calculateTimestamps);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handlePlaybackEnd);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", calculateTimestamps);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handlePlaybackEnd);
+    };
+  }, [story, timestamps, currentIllustrationIndex]);
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      if (audio.ended) {
+        audio.currentTime = 0;
+        setProgress(0);
+        setCurrentIllustrationIndex(0);
+      }
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const currentIllustration =
+    story.illustrations[currentIllustrationIndex] || story.illustrations[0];
+
+  return (
+    <div className="space-y-4">
+      <Card className="overflow-hidden">
+        <CardContent className="p-0">
+          <div className="relative w-full aspect-video bg-white">
+            {currentIllustration && (
+              <Image
+                src={currentIllustration.imageDataUri}
+                alt={`Illustration for scene ${currentIllustrationIndex + 1}`}
+                layout="fill"
+                objectFit="contain"
+                className="transition-opacity duration-500"
+                key={currentIllustrationIndex}
+              />
+            )}
+          </div>
+          <div className="p-4 bg-muted/50">
+             <p className="text-sm text-center text-muted-foreground h-10">
+              {currentIllustration?.sceneText}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <div className="flex items-center gap-4">
+        <Button onClick={togglePlay} size="icon" className="rounded-full">
+          {isPlaying ? <Pause /> : <Play className="ml-0.5" />}
+        </Button>
+        <Progress value={progress} className="h-2" />
+      </div>
+      
+      <audio ref={audioRef} src={story.audioDataUri} className="hidden" />
+    </div>
+  );
+};
 
 export default function InteractiveStoryteller() {
   const { toast } = useToast();
@@ -76,7 +192,23 @@ export default function InteractiveStoryteller() {
     setResult(null);
     try {
       const response = await generateInteractiveStory(values);
-      setResult(response);
+      if (response.illustrations.length === 0) {
+        toast({
+          title: "Couldn't generate illustrations",
+          description: "The story was created, but no visual aids could be generated. Try a different prompt.",
+          variant: "destructive",
+        })
+        const minimalResult: GenerateInteractiveStoryOutput = {
+          ...response,
+          illustrations: [{
+            sceneText: response.fullStoryText,
+            imageDataUri: "https://placehold.co/600x450.png",
+          }]
+        }
+        setResult(minimalResult);
+      } else {
+        setResult(response);
+      }
     } catch (error) {
       console.error(error);
       toast({
@@ -198,66 +330,11 @@ export default function InteractiveStoryteller() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div>
-              <audio controls src={result.audioDataUri} className="w-full">
-                Your browser does not support the audio element.
-              </audio>
-              <p className="text-xs text-muted-foreground mt-2">
-                Listen to the story with different voices for each character!
-              </p>
-            </div>
-
+            <StoryPlayer story={result} />
             <Separator />
-
-            {result.illustrations.length > 0 && (
-              <div>
-                <h4 className="font-semibold text-lg mb-4">Visual Aids</h4>
-                <Carousel
-                  opts={{
-                    align: "start",
-                  }}
-                  className="w-full"
-                >
-                  <CarouselContent>
-                    {result.illustrations.map((illustration, index) => (
-                      <CarouselItem
-                        key={index}
-                        className="md:basis-1/2 lg:basis-1/3"
-                      >
-                        <div className="p-1">
-                          <Card className="overflow-hidden">
-                            <CardContent className="flex flex-col aspect-square items-center justify-center p-0">
-                              <div className="relative w-full h-full bg-white">
-                                <Image
-                                  src={illustration.imageDataUri}
-                                  alt="Generated Visual Aid"
-                                  layout="fill"
-                                  objectFit="contain"
-                                />
-                              </div>
-                            </CardContent>
-                            <CardFooter className="p-3 text-xs text-muted-foreground bg-secondary/30">
-                              <p>
-                                Scene: "
-                                {illustration.sceneText.substring(0, 100)}..."
-                              </p>
-                            </CardFooter>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="ml-12" />
-                  <CarouselNext className="mr-12" />
-                </Carousel>
-              </div>
-            )}
-
-            <Separator />
-
             <div>
               <h4 className="font-semibold text-lg mb-2">Full Story Script</h4>
-              <p className="whitespace-pre-wrap font-body text-base bg-secondary/30 p-4 rounded-md">
+              <p className="whitespace-pre-wrap font-body text-base bg-secondary/30 p-4 rounded-md max-h-60 overflow-y-auto">
                 {result.fullStoryText}
               </p>
             </div>
