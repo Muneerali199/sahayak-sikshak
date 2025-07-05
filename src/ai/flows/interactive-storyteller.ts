@@ -194,6 +194,10 @@ const interactiveStorytellerFlow = ai.defineFlow(
             sceneText: scene.sceneText,
             imageDataUri: response.media?.url || '',
         }))
+        .catch(err => {
+            console.error(`Illustration generation failed for prompt "${scene.illustrationPrompt}":`, err);
+            return { sceneText: scene.sceneText, imageDataUri: '' }; // Gracefully handle failure
+        })
       );
 
     // 3. Generate audio and images in parallel
