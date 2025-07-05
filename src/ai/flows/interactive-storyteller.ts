@@ -26,7 +26,7 @@ const ttsVoices = [
 ];
 
 // Input Schemas
-export const GenerateInteractiveStoryInputSchema = z.object({
+const GenerateInteractiveStoryInputSchema = z.object({
   prompt: z.string().describe('The creative prompt for the story.'),
   gradeLevel: z.string().describe('The target grade level for the story.'),
   language: z.string().describe('The language for the story, explanation, and audio.'),
@@ -53,7 +53,7 @@ const StoryStructureSchema = z.object({
 });
 
 // Output Schema for the final result
-export const GenerateInteractiveStoryOutputSchema = z.object({
+const GenerateInteractiveStoryOutputSchema = z.object({
   title: z.string(),
   fullStoryText: z.string().describe('The complete story as a single text block for display.'),
   audioDataUri: z.string().describe("A data URI for the multi-speaker audio file of the story."),
