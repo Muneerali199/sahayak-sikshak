@@ -10,6 +10,7 @@ import {
   Paintbrush,
   PanelLeft,
   Presentation,
+  Rabbit,
   UsersRound,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -43,6 +44,7 @@ import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useIsMobile } from "@/hooks/use-mobile";
+import InteractiveStoryteller from "@/components/features/interactive-storyteller";
 
 
 type Feature =
@@ -53,7 +55,8 @@ type Feature =
   | "plan"
   | "assess"
   | "gamify"
-  | "explain";
+  | "explain"
+  | "storytell";
 
 function Dashboard() {
   const [activeFeature, setActiveFeature] = React.useState<Feature>("localize");
@@ -105,6 +108,8 @@ function Dashboard() {
         return <GameGeneration />;
       case "explain":
         return <AudioVisualExplanation />;
+      case "storytell":
+        return <InteractiveStoryteller />;
       default:
         return <LocalizedContent />;
     }
@@ -128,6 +133,7 @@ function Dashboard() {
     },
     { id: "gamify", icon: Gamepad2, label: "Game Generation", disabled: false },
     { id: "explain", icon: Presentation, label: "Audio-Visual Explanation" },
+    { id: "storytell", icon: Rabbit, label: "Interactive Storyteller" },
   ];
 
   return (
