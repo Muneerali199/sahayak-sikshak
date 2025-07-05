@@ -13,17 +13,38 @@ import {z} from 'genkit';
 import wav from 'wav';
 import {googleAI} from '@genkit-ai/googleai';
 
-// Available TTS voices for characters
+// Available TTS voices for characters. A mix of male and female sounding voices.
 const ttsVoices = [
-  'Algenib',
+  // Male-sounding
   'Achernar',
+  'Algenib',
   'Canopus',
   'Enif',
   'Hamal',
   'Mirfak',
   'Regulus',
   'Sirius',
+  'Aldebaran',
+  'Altair',
+  'Antares',
+  'Arcturus',
+  'Castor',
+  'Pollux',
+  'Procyon',
+  'Rigel',
+  // Female-sounding
+  'Adhara',
+  'Bellatrix',
+  'Capella',
+  'Elara',
+  'Izar',
+  'Leda',
+  'Meissa',
+  'Mira',
+  'Spica',
+  'Vega',
 ];
+
 
 // Input Schemas
 const GenerateInteractiveStoryInputSchema = z.object({
@@ -34,7 +55,7 @@ const GenerateInteractiveStoryInputSchema = z.object({
 export type GenerateInteractiveStoryInput = z.infer<typeof GenerateInteractiveStoryInputSchema>;
 
 // Intermediate schema for the story structure
-// Note: This is NOT exported to avoid "use server" issues with non-function exports.
+// This is not exported to prevent "use server" issues.
 const StoryStructureSchema = z.object({
   title: z.string().describe('The title of the story.'),
   characterName: z
@@ -138,7 +159,10 @@ const interactiveStorytellerFlow = ai.defineFlow(
     const characters = ['Narrator', characterName];
     const fullStoryText = scenes.map(s => s.sceneText).join('\n\n');
 
-    // 2a. Prepare for multi-speaker TTS
+    // 2a. Prepare for multi-speaker TTS by randomly selecting two voices
+    const shuffledVoices = ttsVoices.sort(() => 0.5 - Math.random());
+    const selectedVoices = shuffledVoices.slice(0, 2);
+
     const speakerMapping: Record<string, string> = {};
     const speakerVoiceConfigs = characters.map((character, index) => {
       const speakerId = `Speaker${index + 1}`;
@@ -146,7 +170,7 @@ const interactiveStorytellerFlow = ai.defineFlow(
       return {
         speaker: speakerId,
         voiceConfig: {
-          prebuiltVoiceConfig: {voiceName: ttsVoices[index % ttsVoices.length]},
+          prebuiltVoiceConfig: {voiceName: selectedVoices[index]},
         },
       };
     });
