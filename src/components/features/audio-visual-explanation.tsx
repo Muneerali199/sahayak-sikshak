@@ -18,6 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -34,6 +41,7 @@ import {
 
 const formSchema = z.object({
   topic: z.string().min(3, "Topic must be at least 3 characters."),
+  language: z.string().min(1, "Please select a language."),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -48,6 +56,7 @@ export default function AudioVisualExplanation() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       topic: "",
+      language: "English",
     },
   });
 
@@ -81,10 +90,10 @@ export default function AudioVisualExplanation() {
               </CardTitle>
               <CardDescription>
                 Enter a topic, and the AI will generate a spoken explanation
-                with a custom visual aid.
+                with a custom visual aid in your chosen language.
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <FormField
                 control={form.control}
                 name="topic"
@@ -97,6 +106,37 @@ export default function AudioVisualExplanation() {
                         {...field}
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="language"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Language</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a language" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="English">English</SelectItem>
+                        <SelectItem value="Hindi">Hindi</SelectItem>
+                        <SelectItem value="Marathi">Marathi</SelectItem>
+                        <SelectItem value="Bengali">Bengali</SelectItem>
+                        <SelectItem value="Tamil">Tamil</SelectItem>
+                        <SelectItem value="Telugu">Telugu</SelectItem>
+                        <SelectItem value="Gujarati">Gujarati</SelectItem>
+                        <SelectItem value="Kannada">Kannada</SelectItem>
+                        <SelectItem value="Spanish">Spanish</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

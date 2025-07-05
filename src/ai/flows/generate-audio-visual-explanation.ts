@@ -16,6 +16,7 @@ import {googleAI} from '@genkit-ai/googleai';
 // Input Schema
 const GenerateAudioVisualExplanationInputSchema = z.object({
   topic: z.string().describe('The topic to explain.'),
+  language: z.string().describe('The language for the explanation and audio.'),
 });
 export type GenerateAudioVisualExplanationInput = z.infer<
   typeof GenerateAudioVisualExplanationInputSchema
@@ -49,7 +50,7 @@ export async function generateAudioVisualExplanation(
 // Prompt to generate the explanation script and a prompt for the visual aid
 const scriptAndImagePromptGenerator = ai.definePrompt({
   name: 'scriptAndImagePromptGenerator',
-  input: {schema: z.object({topic: z.string()})},
+  input: {schema: z.object({topic: z.string(), language: z.string()})},
   output: {
     schema: z.object({
       explanation: z
@@ -64,9 +65,10 @@ const scriptAndImagePromptGenerator = ai.definePrompt({
         ),
     }),
   },
-  prompt: `You are an expert educator. For the given topic, create a simple explanation and a prompt to generate an accompanying visual aid.
+  prompt: `You are an expert educator. For the given topic, create a simple explanation in the specified language, and a prompt to generate an accompanying visual aid.
 
-Topic: {{{topic}}}`,
+Topic: {{{topic}}}
+Language: {{{language}}}`,
 });
 
 // Helper function to convert PCM audio data from TTS to WAV format
