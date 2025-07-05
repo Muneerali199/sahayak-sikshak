@@ -34,19 +34,20 @@ const GenerateInteractiveStoryInputSchema = z.object({
 export type GenerateInteractiveStoryInput = z.infer<typeof GenerateInteractiveStoryInputSchema>;
 
 // Intermediate schema for the story structure
+// Note: This is NOT exported to avoid "use server" issues with non-function exports.
 const StoryStructureSchema = z.object({
   title: z.string().describe('The title of the story.'),
-  characterNames: z
-    .array(z.string())
+  characterName: z
+    .string()
     .describe(
-      'A list of the names of all characters in the story (excluding the Narrator).'
+      'The name of the single character in the story (excluding the Narrator).'
     ),
   scenes: z.array(
     z.object({
       sceneText: z
         .string()
         .describe(
-          'The text of the scene. Prefix dialogue with either "Narrator:" or a character\'s name followed by a colon. E.g., "Narrator: Once upon a time... Squirrely: I found a nut!"'
+          'The text of the scene. Prefix dialogue with either "Narrator:" or the character\'s name followed by a colon. E.g., "Narrator: Once upon a time... Squirrely: I found a nut!"'
         ),
       illustrationPrompt: z
         .string()
@@ -92,10 +93,10 @@ const storyGeneratorPrompt = ai.definePrompt({
 
   Instructions:
   1.  Create a title for the story.
-  2.  Your story MUST feature a "Narrator" and can have one or more other characters. Keep the number of characters reasonable (2-3 characters besides the Narrator is ideal).
-  3.  Provide a list of all character names (excluding "Narrator") in the 'characterNames' field.
+  2.  Your story MUST feature a "Narrator" and exactly one other character.
+  3.  Provide the name of the single character in the 'characterName' field.
   4.  Break the story into at least 3-5 scenes.
-  5.  For each scene, write the text. IMPORTANT: You MUST prefix all dialogue and narration with the speaker's name and a colon. Use only "Narrator" and the character names you created. Example: "Narrator: The sun was shining. Squirrely: What a lovely day!".
+  5.  For each scene, write the text. IMPORTANT: You MUST prefix all dialogue and narration with the speaker's name and a colon. Use only "Narrator" and the character name you created. Example: "Narrator: The sun was shining. Squirrely: What a lovely day!".
   6.  For scenes that are visually interesting, provide a simple prompt (in English) for a line drawing that could be drawn on a blackboard to illustrate it.
   `,
 });
@@ -133,8 +134,8 @@ const interactiveStorytellerFlow = ai.defineFlow(
     }
 
     // 2. Prepare for parallel media generation
-    const {title, characterNames, scenes} = storyStructure;
-    const characters = ['Narrator', ...characterNames];
+    const {title, characterName, scenes} = storyStructure;
+    const characters = ['Narrator', characterName];
     const fullStoryText = scenes.map(s => s.sceneText).join('\n\n');
 
     // 2a. Prepare for multi-speaker TTS
