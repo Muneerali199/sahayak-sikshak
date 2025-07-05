@@ -127,7 +127,7 @@ For more detailed information, please see our [**Contributing Guidelines**](./CO
 
 ## 📜 License
 
-This project is licensed under the MIT License. A `LICENSE` file will be added soon.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ---
 
