@@ -11,7 +11,7 @@ This project was developed for the **Google Cloud Agentic Hackathon**.
 
 Sahayak Teacher comes packed with a suite of powerful, AI-driven features:
 
-*   **Localized Content Generation:** Instantly create hyper-local educational content, stories, and examples in various Indian languages (including Hindi and Marathi) from a simple prompt.
+*   **Localized Content Generation:** Instantly create hyper-local educational content, stories, and examples in various Indian languages from a simple prompt.
 *   **Differentiated Materials:** Automatically generate multiple versions of a worksheet from a single textbook page image, tailored to different student grade levels.
 *   **Instant Knowledge Base:** Get simple, clear, and accurate explanations for complex student questions. Supports both text and voice input in multiple languages.
 *   **Visual Aid Design:** Describe a concept, and the AI will generate a simple, effective visual aid (like a line drawing or chart) that can be easily replicated on a blackboard.
@@ -19,6 +19,7 @@ Sahayak Teacher comes packed with a suite of powerful, AI-driven features:
 *   **Audio-Visual Explanation:** Generate a complete audio-visual lesson on any topic, including a spoken explanation, a visual aid, and a text script.
 *   **Audio-Based Reading Assessment:** Assess a student's reading fluency and accuracy by having them read a passage and recording their voice. The AI provides a full report, including transcription, feedback, and mispronounced words.
 *   **On-the-Fly Educational Game Generation:** Instantly create fun and engaging educational games for any topic and grade level, complete with rules and material lists.
+*   **Interactive Storyteller:** Bring stories to life! Generate a unique, multi-sensory story with distinct character voices and custom illustrations from a single prompt.
 
 ## 🛠️ Tech Stack
 

@@ -54,6 +54,7 @@ This is the heart of the AI functionality, powered by Genkit.
     -   `generate-audio-visual-explanation.ts`
     -   `generate-local-content.ts`
     -   `instant-knowledge-base.ts`
+    -   `interactive-storyteller.ts`
     -   `reading-assessment.ts`
 
 ### `src/components/`
