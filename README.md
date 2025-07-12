@@ -131,5 +131,3 @@ For more detailed information, please see our [**Contributing Guidelines**](./CO
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ---
-
-Built by **Muneer Ali, member of Team Code_Blitz**.
