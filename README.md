@@ -5,7 +5,7 @@
 
 **Sahayak Teacher** is a modern, AI-driven web application designed to be an indispensable assistant for educators, particularly in the Indian context. Built with Next.js and powered by Google's Generative AI through Genkit, this tool streamlines common teaching tasks, freeing up valuable time for teachers to focus on what they do best: teaching.
 
-This project was developed for the **Google Cloud Agentic Hackathon**.
+
 
 ## ✨ Features
 
