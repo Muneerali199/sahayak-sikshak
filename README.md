@@ -132,4 +132,4 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 ---
 
-Built by **Muneer Ali, 
+Built by **Muneer Ali and his team, 
