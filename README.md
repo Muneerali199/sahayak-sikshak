@@ -52,6 +52,11 @@ A high-level overview of the project structure is provided below. For a more det
 
 ## 🚀 Getting Started
 
+### Changes in Version 1.0
+
+- Fixed "Invalid next.config.ts options detected" error by removing the `serverActions` option from the `next.config.ts` file.
+- Fixed "Cross origin request detected" warning by adding the `allowedDevOrigins` option to the `next.config.ts` file.
+
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
@@ -132,4 +137,4 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 ---
 
-Built by **Muneer Ali and his team, 
+Built by **Muneer Ali and his team,
