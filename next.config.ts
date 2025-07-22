@@ -2,9 +2,6 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  serverActions: {
-    bodySizeLimit: '8mb',
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -21,6 +18,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ['192.168.180.1'],
 };
 
 export default nextConfig;

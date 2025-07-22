@@ -39,6 +39,9 @@ If you have an idea for a new feature or an improvement to an existing one, we'd
 
 We actively welcome your pull requests.
 
+- Fixed "Invalid next.config.ts options detected" error by removing the `serverActions` option from the `next.config.ts` file.
+- Fixed "Cross origin request detected" warning by adding the `allowedDevOrigins` option to the `next.config.ts` file.
+
 1.  Fork the repo and create your branch from `main`.
 2.  If you've added code that should be tested, add tests.
 3.  Ensure the test suite passes.
